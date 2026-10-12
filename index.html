@@ -114,7 +114,7 @@
             👤
           </div>
           <h2 class="text-2xl font-black text-slate-800">同仁身分確認</h2>
-          <p class="text-sm text-slate-500 mt-1">本投票採用實名制登記（共 65 位同仁名冊），每人限投一票</p>
+          <p class="text-sm text-slate-500 mt-1">本投票採用實名制登記（共 77 位同仁名冊），每人限投一票</p>
         </div>
 
         <div class="space-y-4 max-w-md mx-auto">
@@ -132,9 +132,9 @@
             <div class="flex items-center justify-between text-xs font-semibold text-slate-600 mt-3 mb-1 px-1">
               <span>同仁名冊檢視：</span>
               <div class="flex gap-1">
-                <button type="button" onclick="setNameFilterMode('all')" id="btn-filter-all" class="px-2 py-1 rounded-md bg-slate-800 text-white font-bold transition">全部 (65)</button>
+                <button type="button" onclick="setNameFilterMode('all')" id="btn-filter-all" class="px-2 py-1 rounded-md bg-slate-800 text-white font-bold transition">全部 (77)</button>
                 <button type="button" onclick="setNameFilterMode('voted')" id="btn-filter-voted" class="px-2 py-1 rounded-md bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold transition">已投 (<span id="voted-filter-count">0</span>)</button>
-                <button type="button" onclick="setNameFilterMode('unvoted')" id="btn-filter-unvoted" class="px-2 py-1 rounded-md bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold transition">未投 (<span id="unvoted-filter-count">65</span>)</button>
+                <button type="button" onclick="setNameFilterMode('unvoted')" id="btn-filter-unvoted" class="px-2 py-1 rounded-md bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold transition">未投 (<span id="unvoted-filter-count">77</span>)</button>
               </div>
             </div>
             
@@ -302,8 +302,8 @@
             <p class="text-xs text-slate-500 mt-0.5" id="stats-last-updated">載入最新數據中...</p>
           </div>
           <div class="flex items-center flex-wrap gap-2">
-            <button onclick="start65VotesSimulation()" class="px-3 py-1.5 text-xs bg-amber-100 text-amber-800 hover:bg-amber-200 border border-amber-300 rounded-lg font-bold flex items-center gap-1 transition shadow-sm">
-              <span>🧪</span> 65人投票測試
+            <button onclick="start77VotesSimulation()" class="px-3 py-1.5 text-xs bg-amber-100 text-amber-800 hover:bg-amber-200 border border-amber-300 rounded-lg font-bold flex items-center gap-1 transition shadow-sm">
+              <span>🧪</span> 77人投票測試
             </button>
             <button onclick="checkSyncStatus()" class="px-3 py-1.5 text-xs bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-300 rounded-lg font-bold flex items-center gap-1 transition">
               <span>📡</span> 檢測同步狀態
@@ -322,7 +322,7 @@
           <div class="p-4 bg-white rounded-xl border border-slate-200 shadow-sm text-center">
             <span class="text-xs text-slate-500 font-semibold block">已投票人數</span>
             <div class="text-2xl md:text-3xl font-black text-rose-600 mt-1">
-              <span id="stat-voted-count">0</span> <span class="text-sm font-bold text-slate-400">/ 65</span>
+              <span id="stat-voted-count">0</span> <span class="text-sm font-bold text-slate-400">/ 77</span>
             </div>
           </div>
 
@@ -368,64 +368,11 @@
           </div>
         </div>
 
-        <!-- Key Metrics Cards -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-6 border-b border-slate-100 gap-3">
-          <div>
-            <h2 class="text-2xl font-black text-slate-800">📊 即時票選開票統計</h2>
-            <p class="text-xs text-slate-500 mt-0.5" id="stats-last-updated">載入最新數據中...</p>
-          </div>
-          <div class="flex items-center flex-wrap gap-2">
-            <button onclick="start65VotesSimulation()" class="px-3 py-1.5 text-xs bg-amber-100 text-amber-800 hover:bg-amber-200 border border-amber-300 rounded-lg font-bold flex items-center gap-1 transition shadow-sm">
-              <span>🧪</span> 65人投票測試
-            </button>
-            <button onclick="checkSyncStatus()" class="px-3 py-1.5 text-xs bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-300 rounded-lg font-bold flex items-center gap-1 transition">
-              <span>📡</span> 檢測同步狀態
-            </button>
-            <button onclick="fetchSheetData()" class="px-3 py-1.5 text-xs bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 rounded-lg font-bold flex items-center gap-1 transition">
-              <span id="refresh-spinner" class="inline-block">🔄</span> 重新整理
-            </button>
-            <button onclick="openResetModal()" class="px-3 py-1.5 text-xs bg-red-100 text-red-700 hover:bg-red-200 border border-red-300 rounded-lg font-bold transition">
-              ⚙️ 重置投票
-            </button>
-          </div>
-        </div>
-
-        <!-- Key Metrics Cards -->
-            <div class="w-full bg-slate-200 rounded-full h-2.5 mt-2">
-              <div id="bar-opt1" class="bg-rose-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-            </div>
-          </div>
-
-          <div class="p-4 bg-gradient-to-r from-amber-50 to-white rounded-xl border-l-4 border-amber-500 border shadow-sm">
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-slate-800">選項二：Buffet 自由模式</span>
-              <span id="score-opt2" class="text-2xl font-black text-amber-600">0 票</span>
-            </div>
-            <div class="w-full bg-slate-200 rounded-full h-2.5 mt-2">
-              <div id="bar-opt2" class="bg-amber-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Chart.js Visualization Container -->
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-          <div class="flex justify-between items-center mb-3">
-            <h3 class="text-sm font-bold text-slate-700">📈 圖表視覺化</h3>
-            <div class="flex gap-1 text-xs">
-              <button onclick="toggleChartType('bar')" id="btn-chart-bar" class="px-2.5 py-1 rounded bg-slate-800 text-white font-bold">長條圖</button>
-              <button onclick="toggleChartType('doughnut')" id="btn-chart-pie" class="px-2.5 py-1 rounded bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold">圓餅圖</button>
-            </div>
-          </div>
-          <div class="relative h-64 md:h-72 w-full flex items-center justify-center">
-            <canvas id="voteChart"></canvas>
-          </div>
-        </div>
-
         <!-- Tabbed Voter Registry: Who voted vs Who has not voted -->
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
           <div class="flex border-b border-slate-200 mb-3">
             <button onclick="switchVoterListTab('unvoted')" id="tab-btn-unvoted" class="py-1.5 px-3 text-xs font-bold border-b-2 border-rose-600 text-rose-600">
-              ⏳ 尚未投票人員 (<span id="unvoted-count">65</span>)
+              ⏳ 尚未投票人員 (<span id="unvoted-count">77</span>)
             </button>
             <button onclick="switchVoterListTab('voted')" id="tab-btn-voted" class="py-1.5 px-3 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-700">
               ✅ 已投票人員 (<span id="voted-tab-count">0</span>)
@@ -773,7 +720,7 @@ self.addEventListener('fetch', (event) => {
   </footer>
 
   <script>
-    /* Full 65 Employee Roster as specified */
+    /* Full 77 Employee Roster as specified */
     const EMPLOYEE_LIST = [
       "黃振義部主任", "洪豪駿主任", "藍顥章主任", "李政君主任", "何俊泓",
       "楊子慶", "黃巧芸", "施孟妤", "王純瓊", "梁雅嵐",
@@ -787,7 +734,10 @@ self.addEventListener('fetch', (event) => {
       "陳定祥", "謝婕惠", "唐玉純", "蕭羽緗", "李旻襄",
       "蔡伯軍", "楊承浩", "林香君", "陳慧茹", "趙庭翎",
       "吳竹雲", "蔡愛華", "王筠婷", "林惠凌", "蔡淑菁",
-      "李翠珍", "許翊菁", "陳玉珍", "陳婉宜", "郭亞倫"
+      "李翠珍", "許翊菁", "陳玉珍", "陳婉宜", "郭亞倫",
+      "兆旺醫師", "志強醫師", "聖超醫師", "怡如醫師", "悰方醫師",
+      "正誠醫師", "友謙醫師", "保嘉醫師", "柏廷醫師", "哲賢醫師",
+      "昱翔醫師", "誼宸醫師"
     ];
 
     /* Published CSV data URL provided by user */
@@ -1397,10 +1347,11 @@ self.addEventListener('fetch', (event) => {
     }
 
     /**
-     * 模擬 65 位同仁全部完成投票並驗證即時圖表與名冊狀態
+     * STREAMING_CHUNK:Simulating votes for all 77 employees...
+     * 模擬 77 位同仁全部完成投票並驗證即時圖表與名冊狀態
      */
-    async function start65VotesSimulation() {
-      showModal('🧪 65人投票模擬中', '正在自動為 65 位同仁隨機分配「傳統合菜」與「Buffet」投票資料，並測試圖表與進度計算...', '⏳');
+    async function start77VotesSimulation() {
+      showModal('🧪 77人投票模擬中', '正在自動為 77 位同仁隨機分配「傳統合菜」與「Buffet」投票資料，並測試圖表與進度計算...', '⏳');
 
       const simulatedRecords = [];
       const options = ['傳統合菜模式', 'Buffet 自由模式'];
@@ -1414,7 +1365,7 @@ self.addEventListener('fetch', (event) => {
         const chosenOpt = (Math.random() < 0.55) ? options[1] : options[0];
         const comment = sampleNotes[Math.floor(Math.random() * sampleNotes.length)];
         simulatedRecords.push({
-          timestamp: new Date(Date.now() - (65 - idx) * 60000).toLocaleString('zh-TW'),
+          timestamp: new Date(Date.now() - (77 - idx) * 60000).toLocaleString('zh-TW'),
           name: name,
           option: chosenOpt,
           comment: comment
@@ -1431,9 +1382,9 @@ self.addEventListener('fetch', (event) => {
 
       setTimeout(() => {
         showModal(
-          '65人模擬測試完成！',
-          `✅ 成功完成全體 65 人實名投票模擬！\n\n` +
-          `• 總投票數：65 票 (投票率 100%)\n` +
+          '77人模擬測試完成！',
+          `✅ 成功完成全體 77 人實名投票模擬！\n\n` +
+          `• 總投票數：77 票 (投票率 100%)\n` +
           `• 選項一【傳統合菜模式】：${opt1Votes} 票\n` +
           `• 選項二【Buffet 自由模式】：${opt2Votes} 票\n` +
           `• 未投票名冊：已全數完成標記\n\n` +
