@@ -1,0 +1,21 @@
+{
+  "name": "今年尾牙吃什麼？2026尾牙調查",
+  "short_name": "尾牙投票",
+  "description": "歡慶年終，共襄盛舉 今年尾牙吃什麼？傳統合菜 VS Buffet",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "icons": [
+    {
+      "src": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=192&h=192&fit=crop&crop=faces",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=512&h=512&fit=crop&crop=faces",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
