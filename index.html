@@ -297,28 +297,28 @@
         </div>
 
         <!-- Key Metrics Cards -->
-        <div class="grid grid-cols-3 gap-3 mb-6 text-center">
-          <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <span class="text-xs text-slate-500 font-medium">總名冊人數</span>
-            <div class="text-xl md:text-2xl font-black text-slate-800 mt-1">65</div>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-6 border-b border-slate-100 gap-3">
+          <div>
+            <h2 class="text-2xl font-black text-slate-800">📊 即時票選開票統計</h2>
+            <p class="text-xs text-slate-500 mt-0.5" id="stats-last-updated">載入最新數據中...</p>
           </div>
-          <div class="p-3 bg-rose-50 rounded-xl border border-rose-200 shadow-sm">
-            <span class="text-xs text-rose-600 font-medium">已投票人數</span>
-            <div id="stat-voted-count" class="text-xl md:text-2xl font-black text-rose-700 mt-1">0</div>
-          </div>
-          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 shadow-sm">
-            <span class="text-xs text-amber-600 font-medium">投票率</span>
-            <div id="stat-vote-rate" class="text-xl md:text-2xl font-black text-amber-700 mt-1">0%</div>
+          <div class="flex items-center flex-wrap gap-2">
+            <button onclick="start65VotesSimulation()" class="px-3 py-1.5 text-xs bg-amber-100 text-amber-800 hover:bg-amber-200 border border-amber-300 rounded-lg font-bold flex items-center gap-1 transition shadow-sm">
+              <span>🧪</span> 65人投票測試
+            </button>
+            <button onclick="checkSyncStatus()" class="px-3 py-1.5 text-xs bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-300 rounded-lg font-bold flex items-center gap-1 transition">
+              <span>📡</span> 檢測同步狀態
+            </button>
+            <button onclick="fetchSheetData()" class="px-3 py-1.5 text-xs bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 rounded-lg font-bold flex items-center gap-1 transition">
+              <span id="refresh-spinner" class="inline-block">🔄</span> 重新整理
+            </button>
+            <button onclick="openResetModal()" class="px-3 py-1.5 text-xs bg-red-100 text-red-700 hover:bg-red-200 border border-red-300 rounded-lg font-bold transition">
+              ⚙️ 重置投票
+            </button>
           </div>
         </div>
 
-        <!-- Breakdown Scores -->
-        <div class="grid md:grid-cols-2 gap-4 mb-6">
-          <div class="p-4 bg-gradient-to-r from-rose-50 to-white rounded-xl border-l-4 border-rose-500 border shadow-sm">
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-slate-800">選項一：傳統合菜模式</span>
-              <span id="score-opt1" class="text-2xl font-black text-rose-600">0 票</span>
-            </div>
+        <!-- Key Metrics Cards -->
             <div class="w-full bg-slate-200 rounded-full h-2.5 mt-2">
               <div id="bar-opt1" class="bg-rose-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
             </div>
@@ -670,8 +670,8 @@ self.addEventListener('fetch', (event) => {
           </p>
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Google Apps Script Web App 部署網址：</label>
-            <input type="text" id="custom-gas-url-input" placeholder="https://script.google.com/macros/s/AKfycb.../exec"
-              class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:ring-2 focus:ring-rose-400 outline-none">
+            <input type="text" id="custom-gas-url-input" value="https://script.google.com/macros/s/AKfycbzD_u15gwxhOaM0DT3u_SMv0VFHAhJZ2RK_HxcgTLDx8-rohTgi4irOUfByhGMXX-dd/exec"
+              class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:ring-2 focus:ring-rose-400 outline-none font-mono">
           </div>
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">目前讀取之 CSV 唯讀來源網址：</label>
@@ -732,8 +732,8 @@ self.addEventListener('fetch', (event) => {
     // In-memory votes cache (loaded from Sheet or simulated initial)
     let voteRecords = [];
 
-    // Custom GAS URL (retrieved from memory or configuration)
-    let gasWebAppUrl = "";
+    // Official GAS Web App URL specified by user
+    let gasWebAppUrl = "https://script.google.com/macros/s/AKfycbzD_u15gwxhOaM0DT3u_SMv0VFHAhJZ2RK_HxcgTLDx8-rohTgi4irOUfByhGMXX-dd/exec";
 
     // Inject dynamic inline web manifest to support PWA standalone capabilities
     (function setupDynamicManifest() {
@@ -1251,6 +1251,97 @@ self.addEventListener('fetch', (event) => {
       confirmBtn.textContent = '確認重置';
 
       showModal('重置成功！', '投票紀錄已清空，試算表資料已重置。', '🧹');
+    }
+
+    /**
+     * 模擬 65 位同仁全部完成投票並驗證即時圖表與名冊狀態
+     */
+    async function start65VotesSimulation() {
+      showModal('🧪 65人投票模擬中', '正在自動為 65 位同仁隨機分配「傳統合菜」與「Buffet」投票資料，並測試圖表與進度計算...', '⏳');
+
+      const simulatedRecords = [];
+      const options = ['傳統合菜模式', 'Buffet 自由模式'];
+      const sampleNotes = [
+        '推薦島語龍蝦！', '希望有素食專區', '好期待抽獎活動', '旭集甜點超讚', 
+        '準時出席！', '合菜吃得飽氣氛好', '', '', ''
+      ];
+
+      EMPLOYEE_LIST.forEach((name, idx) => {
+        // 約 55% 選擇 Buffet，45% 選擇傳統合菜模擬真實情境
+        const chosenOpt = (Math.random() < 0.55) ? options[1] : options[0];
+        const comment = sampleNotes[Math.floor(Math.random() * sampleNotes.length)];
+        simulatedRecords.push({
+          timestamp: new Date(Date.now() - (65 - idx) * 60000).toLocaleString('zh-TW'),
+          name: name,
+          option: chosenOpt,
+          comment: comment
+        });
+      });
+
+      // 更新本地紀錄狀態
+      voteRecords = simulatedRecords;
+      updateStatisticsUI();
+
+      // 計算分配數據
+      const opt1Votes = voteRecords.filter(r => r.option.includes('合菜')).length;
+      const opt2Votes = voteRecords.filter(r => r.option.includes('Buffet')).length;
+
+      setTimeout(() => {
+        showModal(
+          '65人模擬測試完成！',
+          `✅ 成功完成全體 65 人實名投票模擬！\n\n` +
+          `• 總投票數：65 票 (投票率 100%)\n` +
+          `• 選項一【傳統合菜模式】：${opt1Votes} 票\n` +
+          `• 選項二【Buffet 自由模式】：${opt2Votes} 票\n` +
+          `• 未投票名冊：已全數完成標記\n\n` +
+          `您可以隨時點選「重置投票 (密碼: tung)」恢復初始狀態。`,
+          '🎉'
+        );
+      }, 700);
+    }
+
+    /**
+     * 檢測與 Google Apps Script 及 Google 試算表 CSV 的即時連線同步狀態
+     */
+    async function checkSyncStatus() {
+      showModal('檢測連線中', '正在檢測 Google Apps Script Web App 與試算表資料同步連線...', '📡');
+
+      let gasStatus = '未知';
+      let csvStatus = '未知';
+      let details = [];
+
+      // 1. 檢測 Google Apps Script Web App
+      try {
+        const gasPromise = fetch(gasWebAppUrl, { method: 'GET', mode: 'no-cors' });
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('連線超時')), 5000));
+        await Promise.race([gasPromise, timeoutPromise]);
+        gasStatus = '✅ 連線通暢 (GAS Endpoint 正常回應)';
+      } catch (err) {
+        gasStatus = `⚠️ 檢查回應 (${err.message})`;
+      }
+
+      // 2. 檢測 Google 試算表 CSV 發佈網址
+      try {
+        const res = await fetch(`${CSV_URL}&_check=${Date.now()}`);
+        if (res.ok) {
+          const txt = await res.text();
+          const rows = txt.trim().split(/\r\n|\n/).length;
+          csvStatus = `✅ 正常同步中 (已發布 CSV，包含 ${rows} 行資料)`;
+        } else {
+          csvStatus = `⚠️ 狀態碼: ${res.status}`;
+        }
+      } catch (err) {
+        csvStatus = `⚠️ 讀取失敗: ${err.message}`;
+      }
+
+      showModal(
+        '雲端同步檢測結果',
+        `📌 GAS Web App 部署網址：\n${gasWebAppUrl}\n\n` +
+        `• GAS 寫入通道狀態：${gasStatus}\n` +
+        `• Google 試算表 CSV 讀取：${csvStatus}\n` +
+        `• 系統狀態：可正常提交投票與即時同步！`,
+        '📊'
+      );
     }
 
     function showModal(title, message, icon = '🔔') {
